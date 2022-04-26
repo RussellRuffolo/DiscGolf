@@ -37,6 +37,7 @@ public class InputController : MonoBehaviour
         emptyInputState.rightHand = RightHand;
         emptyInputState.boxHalfExtents = BoxHalfExtents;
         emptyInputState.disc = Disc;
+        emptyInputState.DiscController = DiscController;
 
         DiscInputState discInputState = (DiscInputState) InputStates[InputState.Disc];
         discInputState.DiscTransform = Disc;
@@ -55,14 +56,14 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        InputState newState = InputStates[CurrentInputState].CheckInputState();
-        if (newState != CurrentInputState)
-        {
-            InputStates[CurrentInputState].Exit();
-            CurrentInputState = newState;
-            InputStates[CurrentInputState].Enter();
-        }
-
-        InputStates[CurrentInputState].ApplyInputs();
+        // InputState newState = InputStates[CurrentInputState].CheckInputState();
+        // if (newState != CurrentInputState)
+        // {
+        //     InputStates[CurrentInputState].Exit();
+        //     CurrentInputState = newState;
+        //     InputStates[CurrentInputState].Enter();
+        // }
+        //
+        // InputStates[CurrentInputState].ApplyInputs();
     }
 }

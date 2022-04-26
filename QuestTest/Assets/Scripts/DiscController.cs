@@ -34,11 +34,11 @@ public class DiscController : MonoBehaviour
   
     private void Update()
     {
-        if (flying)
-        {
-       //     currentVelocity -= gravAcceleration * Vector3.up * Time.deltaTime;
-            rb.MovePosition(transform.position + currentVelocity * Time.deltaTime);
-        }
+        // if (flying)
+        // {
+        //     currentVelocity -= gravAcceleration * Vector3.up * Time.deltaTime;
+        //     rb.MovePosition(transform.position + currentVelocity * Time.deltaTime);
+        // }
     }
 
     private void OnCollisionEnter(Collision collision)
