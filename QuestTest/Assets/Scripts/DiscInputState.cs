@@ -7,7 +7,7 @@ public class DiscInputState : IInputState
 
     public Transform RightHandTransform;
 
-    public Transform DiscTransform;
+    public PlayerManager playerManager;     
 
     public Slider SpeedSlider;
 
@@ -35,8 +35,9 @@ public class DiscInputState : IInputState
 
     public void ApplyInputs()
     {
-        DiscTransform.position = RightHandTransform.position;
-        DiscTransform.rotation = RightHandTransform.rotation;
+        Transform discTransform = playerManager.CurrentDisc.transform;
+        discTransform.position = RightHandTransform.position;
+        discTransform.rotation = RightHandTransform.rotation;
 
         Vector2 rightStickInput = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);
 

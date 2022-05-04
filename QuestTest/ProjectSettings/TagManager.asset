@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - disc
+  - ground
+  - basket
   layers:
   - Default
   - TransparentFX
@@ -14,7 +16,7 @@ TagManager:
   - UI
   - disc
   - ground
-  - 
+  - basket
   - 
   - 
   - 

@@ -2,5 +2,6 @@ public enum InputState
 {
     Empty,
     Disc,
-    Throw
+    Throw,
+    Drone
 }

@@ -3,11 +3,12 @@ using UnityEngine.UI;
 
 public class ThrowInputState : IInputState
 {
-    public DiscController Disc;
     
     public Slider SpeedSlider;
 
     public Transform RightHand;
+
+    public PlayerManager playerManager;
     
     public InputState CheckInputState()
     {
@@ -24,6 +25,7 @@ public class ThrowInputState : IInputState
 
     public void ApplyInputs()
     {
-        Disc.Throw(SpeedSlider.value, RightHand.forward);
+        playerManager.CurrentDisc.GetComponent<DiscController>().Throw(SpeedSlider.value, RightHand.forward);
+       // playerManager.CurrentDisc = null;
     }
 }
