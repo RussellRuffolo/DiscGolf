@@ -9,6 +9,8 @@ public class ThrowInputState : IInputState
     public Transform RightHand;
 
     public PlayerManager playerManager;
+
+    public VelocityTracker VelocityTracker;
     
     public InputState CheckInputState()
     {
@@ -25,7 +27,7 @@ public class ThrowInputState : IInputState
 
     public void ApplyInputs()
     {
-        playerManager.CurrentDisc.GetComponent<DiscController>().Throw(SpeedSlider.value, RightHand.forward);
+        playerManager.CurrentDisc.GetComponent<DiscController>().Throw(VelocityTracker.Velocity.magnitude, RightHand.forward);
        // playerManager.CurrentDisc = null;
     }
 }

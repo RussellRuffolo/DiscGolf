@@ -25,6 +25,7 @@ public class DiscInputState : IInputState
 
     public void Enter()
     {
+        lastPosition = RightHandTransform.position;
         RightHandCanvas.enabled = true;
     }
 
@@ -33,8 +34,13 @@ public class DiscInputState : IInputState
         RightHandCanvas.enabled = false;
     }
 
+    private Vector3 lastPosition;
+    private Vector3 velocity;
     public void ApplyInputs()
     {
+
+        velocity = RightHandTransform.position - lastPosition;
+        
         Transform discTransform = playerManager.CurrentDisc.transform;
         discTransform.position = RightHandTransform.position;
         discTransform.rotation = RightHandTransform.rotation;
@@ -45,5 +51,8 @@ public class DiscInputState : IInputState
         {
             SpeedSlider.value += rightStickInput.y * slideScale;
         }
+        
+        lastPosition = RightHandTransform.position;
+
     }
 }

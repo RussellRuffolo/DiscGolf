@@ -34,10 +34,9 @@ public class DiscController : MonoBehaviour
     }
 
 
-
     public void Throw(float speedMod, Vector3 direction)
     {
-        currentVelocity = speedMod * maxSpeed * direction;
+        currentVelocity = speedMod * direction;
         rotationalVelocity = speedMod * maxRotation;
         flying = true;
     }
@@ -47,7 +46,7 @@ public class DiscController : MonoBehaviour
         flying = false;
         currentVelocity = Vector3.zero;
     }
-  
+
     private void Update()
     {
         if (flying)
@@ -57,12 +56,12 @@ public class DiscController : MonoBehaviour
 
             currentVelocity += Vector3.up * Time.deltaTime * currentVelocity.magnitude * liftModifier;
 
-            currentVelocity -=  currentVelocity * Time.deltaTime * dragModifier;
-
+            //this should be proportional to surface area of disc cross section in velocity direction
+            //     currentVelocity -=  currentVelocity.normalized * currentVelocity.sqrMagnitude * Time.deltaTime * dragModifier;
 
 
             //rotation should asymptotically decrease. 
-          
+
             if (rotationalVelocity > 0)
             {
                 rotationalVelocity -= spinDrag * Time.deltaTime;
@@ -70,35 +69,30 @@ public class DiscController : MonoBehaviour
             else
             {
                 rotationalVelocity += spinDrag * Time.deltaTime;
-
             }
-            
-           
 
 
 #pragma warning disable CS0618 // Type or member is obsolete
-       //     transform.RotateAroundLocal(Vector3.up, rotationalVelocity * Time.deltaTime);
+            //     transform.RotateAroundLocal(Vector3.up, rotationalVelocity * Time.deltaTime);
 #pragma warning restore CS0618 // Type or member is obsolete
 
             Vector3 movementVector = currentVelocity * Time.deltaTime;
 
-            RaycastHit[] results = UnityEngine.Physics.BoxCastAll(transform.position, halfExtents, movementVector, transform.rotation, movementVector.magnitude);
+            RaycastHit[] results = UnityEngine.Physics.BoxCastAll(transform.position, halfExtents, movementVector,
+                transform.rotation, movementVector.magnitude);
 
-            foreach(RaycastHit hit in results)
+            foreach (RaycastHit hit in results)
             {
                 if (hit.transform.gameObject.CompareTag("ground"))
                 {
                     mgController.OnMiss();
                     StartCoroutine(DiscDelay());
                     flying = false;
-                    
                 }
             }
 
 
-
             transform.position += currentVelocity * Time.deltaTime;
-  
         }
     }
 
@@ -107,7 +101,5 @@ public class DiscController : MonoBehaviour
         yield return new WaitForSeconds(1);
         transform.position = startPosition;
         transform.rotation = startRotation;
-
     }
- 
 }

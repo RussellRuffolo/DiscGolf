@@ -7,7 +7,7 @@ public class InputController : MonoBehaviour
     public Transform RightHand;
 
 
-
+    public VelocityTracker VelocityTracker;
     public Canvas RightHandCanvas;
 
     public Slider SpeedSlider;
@@ -54,12 +54,14 @@ public class InputController : MonoBehaviour
         throwInputState.playerManager = playerManager;
         throwInputState.SpeedSlider = SpeedSlider;
         throwInputState.RightHand = RightHand;
+        throwInputState.VelocityTracker = VelocityTracker;
 
         DroneInputState droneInputState = (DroneInputState)InputStates[InputState.Drone];
         droneInputState.DroneScreen = DroneScreen;
         droneInputState.Drone = Drone;
     }
 
+    
 
     // Update is called once per frame
           void Update()
