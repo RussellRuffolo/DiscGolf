@@ -36,7 +36,8 @@ public class DiscController : MonoBehaviour
 
     public void Throw(float speedMod, Vector3 direction)
     {
-        currentVelocity = speedMod * direction;
+        Debug.Log("Start throw with speed: " + speedMod);
+        currentVelocity = speedMod * direction * .5f;
         rotationalVelocity = speedMod * maxRotation;
         flying = true;
     }
@@ -54,10 +55,10 @@ public class DiscController : MonoBehaviour
             currentVelocity -= gravAcceleration * Vector3.up * Time.deltaTime;
 
 
-            currentVelocity += Vector3.up * Time.deltaTime * currentVelocity.magnitude * liftModifier;
+            currentVelocity += transform.up * Time.deltaTime * currentVelocity.magnitude * liftModifier;
 
             //this should be proportional to surface area of disc cross section in velocity direction
-            //     currentVelocity -=  currentVelocity.normalized * currentVelocity.sqrMagnitude * Time.deltaTime * dragModifier;
+            currentVelocity -=  currentVelocity.normalized * currentVelocity.sqrMagnitude * Time.deltaTime * dragModifier;
 
 
             //rotation should asymptotically decrease. 
@@ -72,9 +73,9 @@ public class DiscController : MonoBehaviour
             }
 
 
-#pragma warning disable CS0618 // Type or member is obsolete
+
             //     transform.RotateAroundLocal(Vector3.up, rotationalVelocity * Time.deltaTime);
-#pragma warning restore CS0618 // Type or member is obsolete
+
 
             Vector3 movementVector = currentVelocity * Time.deltaTime;
 
@@ -85,6 +86,7 @@ public class DiscController : MonoBehaviour
             {
                 if (hit.transform.gameObject.CompareTag("ground"))
                 {
+                    //make this an event
                     mgController.OnMiss();
                     StartCoroutine(DiscDelay());
                     flying = false;
