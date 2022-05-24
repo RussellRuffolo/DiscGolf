@@ -10,7 +10,7 @@ public class CatchDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+   
         mgController.OnScore();
-    //    Debug.LogWarning("TETSTSTSTSTSST");
     }
 }

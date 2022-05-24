@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 public interface IInputState
 {
-    InputState CheckInputState();
+    InputState CheckInputState(InputStruct playerInputs);
     
     void Enter();
 
     void Exit();
 
-    void ApplyInputs();
+    void ApplyInputs(InputStruct playerInputs);
 
 }

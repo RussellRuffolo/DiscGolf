@@ -7,7 +7,7 @@ public class EmptyInputState : IInputState
 
     public PlayerManager playerManager;
 
-    public InputState CheckInputState()
+    public InputState CheckInputState(InputStruct playerInputs)
     {
         if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
         {
@@ -40,12 +40,8 @@ public class EmptyInputState : IInputState
     {
     }
 
-    public void ApplyInputs()
+    public void ApplyInputs(InputStruct playerInputs)
     {
-        if (OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger) && playerManager.CurrentDisc != null)
-        {
-            playerManager.CurrentDisc.transform.position = rightHand.position;
-            playerManager.CurrentDisc.GetComponent<DiscController>().OnGrab();
-        }
+       
     }
 }

@@ -12,7 +12,7 @@ public class ThrowInputState : IInputState
 
     public VelocityTracker VelocityTracker;
     
-    public InputState CheckInputState()
+    public InputState CheckInputState(InputStruct playerInputs)
     {
         return InputState.Empty;
     }
@@ -25,9 +25,9 @@ public class ThrowInputState : IInputState
     {
     }
 
-    public void ApplyInputs()
+    public void ApplyInputs(InputStruct playerInputs)
     {
-        playerManager.CurrentDisc.GetComponent<DiscController>().Throw(VelocityTracker.Velocity.magnitude, RightHand.forward);
+        playerManager.CurrentDisc.GetComponent<DiscController>().Throw(VelocityTracker.Velocity.magnitude, VelocityTracker.Velocity.normalized);
        // playerManager.CurrentDisc = null;
     }
 }

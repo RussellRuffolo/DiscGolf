@@ -13,9 +13,9 @@ public class DiscInputState : IInputState
 
     public float slideScale;
 
-    public InputState CheckInputState()
+    public InputState CheckInputState(InputStruct playerInputs)
     {
-        if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
+        if (playerInputs.rightSecTrig)
         {
             return InputState.Disc;
         }
@@ -36,13 +36,13 @@ public class DiscInputState : IInputState
 
     private Vector3 lastPosition;
     private Vector3 velocity;
-    public void ApplyInputs()
+    public void ApplyInputs(InputStruct playerInputs)
     {
 
         velocity = RightHandTransform.position - lastPosition;
         
         Transform discTransform = playerManager.CurrentDisc.transform;
-        discTransform.position = RightHandTransform.position;
+        discTransform.position = playerInputs.rightHandPosition;
         discTransform.rotation = RightHandTransform.rotation;
 
         Vector2 rightStickInput = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick);

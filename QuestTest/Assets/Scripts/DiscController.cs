@@ -25,10 +25,10 @@ public class DiscController : MonoBehaviour
 
     public MiniGameController mgController;
 
+
     public void Awake()
     {
         mgController = GameObject.Find("MiniGameController").GetComponent<MiniGameController>();
-
         startPosition = transform.position;
         startRotation = transform.rotation;
     }
@@ -36,8 +36,9 @@ public class DiscController : MonoBehaviour
 
     public void Throw(float speedMod, Vector3 direction)
     {
+        mgController.OnThrow(this);
         Debug.Log("Start throw with speed: " + speedMod);
-        currentVelocity = speedMod * direction * .5f;
+        currentVelocity = speedMod * direction;
         rotationalVelocity = speedMod * maxRotation;
         flying = true;
     }
@@ -58,7 +59,8 @@ public class DiscController : MonoBehaviour
             currentVelocity += transform.up * Time.deltaTime * currentVelocity.magnitude * liftModifier;
 
             //this should be proportional to surface area of disc cross section in velocity direction
-            currentVelocity -=  currentVelocity.normalized * currentVelocity.sqrMagnitude * Time.deltaTime * dragModifier;
+            currentVelocity -= currentVelocity.normalized * currentVelocity.sqrMagnitude * Time.deltaTime *
+                               dragModifier;
 
 
             //rotation should asymptotically decrease. 
@@ -71,7 +73,6 @@ public class DiscController : MonoBehaviour
             {
                 rotationalVelocity += spinDrag * Time.deltaTime;
             }
-
 
 
             //     transform.RotateAroundLocal(Vector3.up, rotationalVelocity * Time.deltaTime);

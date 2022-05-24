@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InputController : MonoBehaviour
+public abstract class BasePlayerController : MonoBehaviour
 {
     public Transform RightHand;
 
@@ -22,7 +22,6 @@ public class InputController : MonoBehaviour
 
     public GameObject DroneScreen;
     public GameObject Drone;
-
 
     public Dictionary<InputState, IInputState> InputStates = new Dictionary<InputState, IInputState>()
     {
@@ -56,17 +55,41 @@ public class InputController : MonoBehaviour
         throwInputState.RightHand = RightHand;
         throwInputState.VelocityTracker = VelocityTracker;
 
-        DroneInputState droneInputState = (DroneInputState)InputStates[InputState.Drone];
+        DroneInputState droneInputState = (DroneInputState) InputStates[InputState.Drone];
         droneInputState.DroneScreen = DroneScreen;
         droneInputState.Drone = Drone;
     }
+}
 
-    
+public class InputController : BasePlayerController
+{
+    public int tickNumber;
+
 
     // Update is called once per frame
-          void Update()
+    void FixedUpdate()
     {
-        InputState newState = InputStates[CurrentInputState].CheckInputState();
+        tickNumber++;
+
+        //get inputs to input struct
+        InputStruct newInputs = new InputStruct()
+        {
+            rightSecTrig = OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger),
+            rightBut1 = OVRInput.GetDown(OVRInput.Button.One),
+            rightBut2 = OVRInput.GetDown(OVRInput.Button.Two),
+            rightBut3 = OVRInput.GetDown(OVRInput.Button.Three),
+            rightStickInput = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick),
+            leftStickInput = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick),
+            rightHandPosition = RightHand.position,
+            rightHandRotation = RightHand.rotation,
+            
+        };
+
+        //record inputs
+        ReplayRecorder.Instance.RecordInput(tickNumber, newInputs);
+
+
+        InputState newState = InputStates[CurrentInputState].CheckInputState(newInputs);
         if (newState != CurrentInputState)
         {
             InputStates[CurrentInputState].Exit();
@@ -74,7 +97,8 @@ public class InputController : MonoBehaviour
             InputStates[CurrentInputState].Enter();
         }
 
-        InputStates[CurrentInputState].ApplyInputs();
-    }
 
+        //apply inputs takes the inputs for this frame
+        InputStates[CurrentInputState].ApplyInputs(newInputs);
+    }
 }
