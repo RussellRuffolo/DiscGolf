@@ -74,8 +74,8 @@ public class DiscController : MonoBehaviour
                 rotationalVelocity += spinDrag * Time.deltaTime;
             }
 
-
-            //     transform.RotateAroundLocal(Vector3.up, rotationalVelocity * Time.deltaTime);
+            //testing this
+            transform.RotateAroundLocal(transform.up, rotationalVelocity * Time.deltaTime);
 
 
             Vector3 movementVector = currentVelocity * Time.deltaTime;
