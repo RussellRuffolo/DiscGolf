@@ -11,11 +11,13 @@ public class EmptyInputState : IInputState
     {
         if (OVRInput.Get(OVRInput.Button.SecondaryIndexTrigger))
         {
+            Debug.Log("Trigger Down");
             Collider[] colliders = Physics.OverlapBox(rightHand.position, boxHalfExtents);
             foreach (Collider collider in colliders)
             {
                 if (collider.CompareTag("disc"))
                 {
+                    Debug.Log("Disc Grabbed");
                     playerManager.CurrentDisc = collider.gameObject;
                     return InputState.Disc;
                 }

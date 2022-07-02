@@ -570,6 +570,10 @@
     <Compile Include="Assets\VRTK\Source\Scripts\Controls\3D\VRTK_Drawer.cs" />
     <Compile Include="Assets\VRTK\LegacyExampleFiles\ExampleResources\Scripts\Remote_Beam.cs" />
     <Compile Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrackSegment.cs" />
+    <Compile Include="Assets\Scripts\Bag.cs" />
+    <Compile Include="Assets\Scripts\MenuDiscInputState.cs" />
+    <Compile Include="Assets\Scripts\MenuDiscLocation.cs" />
+    <Compile Include="Assets\Scripts\MenuInputController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\XingLightShader.shader" />

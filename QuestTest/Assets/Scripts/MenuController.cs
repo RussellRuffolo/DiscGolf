@@ -7,6 +7,6 @@ public class MenuController : MonoBehaviour
 {
     public void OpenPracticeScene()
     {
-        SceneManager.LoadScene("Room");
+        SceneManager.LoadScene("MiniGameScene");
     }
 }
