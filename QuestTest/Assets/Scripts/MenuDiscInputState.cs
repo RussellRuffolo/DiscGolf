@@ -30,23 +30,23 @@ public class MenuDiscInputState : IInputState
         {
             if (collider.CompareTag("bag"))
             {
-                bag.Discs.Add(bag.DiscMapping.IndexOf(playerManager.CurrentDisc));
-                GameObject.Destroy(playerManager.CurrentDisc);
+                bag.AddMenuDisc(playerManager.CurrentDisc);
+
                 playerManager.CurrentDisc = null;
                 return InputState.Empty;
             }
         }
+
         playerManager.CurrentDisc.GetComponent<MenuDiscLocation>().Reset();
         playerManager.CurrentDisc = null;
         return InputState.Empty;
     }
+
     public void Enter()
     {
-        
     }
 
     public void Exit()
     {
-       
     }
 }

@@ -2,25 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bag: MonoBehaviour
+public class Bag : MonoBehaviour
 {
-    public List<int> Discs = new List<int>();
-    public List<GameObject> DiscMapping = new List<GameObject>();   
-    
+    public List<string> Discs = new List<string>();
+
+    public Vector3 startPosition;
+
+    public Vector3 startOrientation;
+
+    public float seperation;
 
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(this);
-        foreach (int id in Discs) 
-        { 
-            Debug.Log(id); 
+        for (int i = 0; i < Discs.Count; i++)
+        {
+            GameObject disc = Resources.Load<GameObject>(Discs[i]);
+            disc.transform.parent = transform;
+            disc.transform.localPosition = startPosition + Vector3.forward * seperation * i;
+            disc.transform.rotation = Quaternion.Euler(startOrientation);
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddMenuDisc(GameObject disc)
     {
-        
+        Discs.Add(disc.gameObject.name);
+        disc.transform.parent = transform;
+        disc.transform.localPosition = startPosition + Vector3.forward * seperation * (Discs.Count - 1);
+        disc.transform.rotation = Quaternion.Euler(startOrientation);
     }
 }
