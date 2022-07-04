@@ -27,9 +27,12 @@ public class Bag : MonoBehaviour
 
     public void AddMenuDisc(GameObject disc)
     {
-        Discs.Add(disc.gameObject.name);
-        disc.transform.parent = transform;
-        disc.transform.localPosition = startPosition + Vector3.forward * seperation * (Discs.Count - 1);
-        disc.transform.rotation = Quaternion.Euler(startOrientation);
+        if (!Discs.Contains(disc.gameObject.name))
+        {
+            Discs.Add(disc.gameObject.name);
+            disc.transform.parent = transform;
+            disc.transform.localPosition = startPosition + Vector3.forward * seperation * (Discs.Count - 1);
+            disc.transform.rotation = Quaternion.Euler(startOrientation);
+        }
     }
 }

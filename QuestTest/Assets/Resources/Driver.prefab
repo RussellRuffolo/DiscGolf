@@ -13,7 +13,9 @@ GameObject:
   - component: {fileID: 8713692863561627343}
   - component: {fileID: 3229128291593684769}
   - component: {fileID: 9142422547513228212}
-  m_Layer: 0
+  - component: {fileID: 349990033063184340}
+  - component: {fileID: 6708156866127949840}
+  m_Layer: 6
   m_Name: Driver
   m_TagString: disc
   m_Icon: {fileID: 0}
@@ -110,3 +112,39 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 522b77dbde92d754590d565831cc449d, type: 3}
+--- !u!114 &349990033063184340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2281631201304082474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb49093ecf19aa9409f33a1f3e479590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 20
+  maxRotation: 5
+  halfExtents: {x: 0.146, y: 0.0122, z: 0.146}
+  gravAcceleration: 9.8
+  liftModifier: 0
+  dragModifier: 0
+  spinDrag: 0.01
+  mgController: {fileID: 0}
+--- !u!54 &6708156866127949840
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2281631201304082474}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

@@ -19,6 +19,7 @@ public class EmptyInputState : IInputState
                 {
                     Debug.Log("Disc Grabbed");
                     playerManager.CurrentDisc = collider.gameObject;
+                    playerManager.CurrentDisc.transform.parent = null;
                     return InputState.Disc;
                 }
             }

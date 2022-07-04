@@ -27,6 +27,7 @@ public class ThrowInputState : IInputState
 
     public void ApplyInputs(InputStruct playerInputs)
     {
+        Debug.Log("Playermanager disc: " + playerManager.CurrentDisc);
         playerManager.CurrentDisc.GetComponent<DiscController>().Throw(VelocityTracker.Velocity.magnitude, VelocityTracker.Velocity.normalized);
        // playerManager.CurrentDisc = null;
     }

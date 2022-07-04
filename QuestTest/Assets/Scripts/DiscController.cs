@@ -23,12 +23,24 @@ public class DiscController : MonoBehaviour
     private Vector3 startPosition;
     private Quaternion startRotation;
 
-    public MiniGameController mgController;
+    private MiniGameController m_mgController;
 
-
-    public void Awake()
+    public MiniGameController mgController
     {
-        mgController = GameObject.Find("MiniGameController").GetComponent<MiniGameController>();
+        get
+        {
+            return m_mgController != null
+                ? m_mgController
+                : m_mgController = GameObject.Find("MiniGameController").GetComponent<MiniGameController>();
+        }
+
+        set { m_mgController = value; }
+    }
+
+
+    private void Start()
+    {
+        //mgController = GameObject.Find("MiniGameController").GetComponent<MiniGameController>();
         startPosition = transform.position;
         startRotation = transform.rotation;
     }
