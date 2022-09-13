@@ -7,10 +7,10 @@ public abstract class BasePlayerController : MonoBehaviour
     public Transform RightHand;
 
     public Dictionary<InputState, IInputState> InputStates;
-    public VelocityTracker VelocityTracker;
     public Canvas RightHandCanvas;
 
     public Slider SpeedSlider;
+    public Slider SpinSlider;
 
     private Vector2 rightStickInput;
     public Vector3 BoxHalfExtents;
@@ -39,7 +39,6 @@ public abstract class BasePlayerController : MonoBehaviour
             leftStickInput = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick),
             rightHandPosition = RightHand.position,
             rightHandRotation = RightHand.rotation,
-
         };
 
         //record inputs
@@ -58,7 +57,6 @@ public abstract class BasePlayerController : MonoBehaviour
         //apply inputs takes the inputs for this frame
         InputStates[CurrentInputState].ApplyInputs(newInputs);
     }
-
 }
 
 public class InputController : BasePlayerController
@@ -66,35 +64,36 @@ public class InputController : BasePlayerController
     private void Start()
     {
         InputStates = new Dictionary<InputState, IInputState>()
-    {
-        {InputState.Empty, new EmptyInputState()},
-        {InputState.Disc, new DiscInputState()},
-        {InputState.Throw, new ThrowInputState()},
-        {InputState.Drone, new DroneInputState()}
-    };
+        {
+            {InputState.Empty, new EmptyInputState()},
+            {InputState.Disc, new DiscInputState()},
+            {InputState.Throw, new ThrowInputState()},
+            {InputState.Drone, new DroneInputState()}
+        };
         CurrentInputState = InputState.Empty;
 
         RightHandCanvas.enabled = false;
 
-        EmptyInputState emptyInputState = (EmptyInputState)InputStates[InputState.Empty];
+        EmptyInputState emptyInputState = (EmptyInputState) InputStates[InputState.Empty];
         emptyInputState.rightHand = RightHand;
         emptyInputState.boxHalfExtents = BoxHalfExtents;
         emptyInputState.playerManager = playerManager;
 
-        DiscInputState discInputState = (DiscInputState)InputStates[InputState.Disc];
+        DiscInputState discInputState = (DiscInputState) InputStates[InputState.Disc];
         discInputState.playerManager = playerManager;
         discInputState.RightHandTransform = RightHand;
         discInputState.RightHandCanvas = RightHandCanvas;
         discInputState.slideScale = slideScale;
         discInputState.SpeedSlider = SpeedSlider;
+        discInputState.SpinSlider = SpinSlider;
 
-        ThrowInputState throwInputState = (ThrowInputState)InputStates[InputState.Throw];
+        ThrowInputState throwInputState = (ThrowInputState) InputStates[InputState.Throw];
         throwInputState.playerManager = playerManager;
         throwInputState.SpeedSlider = SpeedSlider;
+        throwInputState.SpinSlider = SpinSlider;
         throwInputState.RightHand = RightHand;
-        throwInputState.VelocityTracker = VelocityTracker;
 
-        DroneInputState droneInputState = (DroneInputState)InputStates[InputState.Drone];
+        DroneInputState droneInputState = (DroneInputState) InputStates[InputState.Drone];
         droneInputState.DroneScreen = DroneScreen;
         droneInputState.Drone = Drone;
     }

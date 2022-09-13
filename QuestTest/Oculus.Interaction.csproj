@@ -251,8 +251,8 @@
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Interaction\Transformable\ITransformable.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Interaction\Pointable\VirtualPointable.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Input\OVRIntegration\OVRInputDeviceActiveState.cs" />
-     <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Throw\IVelocityCalculator.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Unity\PointableCanvasModule.cs" />
+     <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Throw\IVelocityCalculator.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Interaction\Pointable\PointableDebugVisual.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\PoseDetection\Debug\ActiveStateDebugVisual.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\PoseDetection\SequenceActiveState.cs" />
@@ -298,8 +298,8 @@
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Interaction\Core\ICandidatePosition.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Grab\IFingerAPI.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Unity\UnityCanvas\UpdateCanvasSortingOrder.cs" />
-     <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Unity\UnityCanvas\CanvasRenderTextureMesh.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\PoseDetection\FeatureConfigBuilder.cs" />
+     <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Unity\UnityCanvas\CanvasRenderTextureMesh.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\HandPosing\Recording\HandPoseRecorder.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Input\OVRIntegration\HandPhysicsCapsules.cs" />
      <Compile Include="Assets\Oculus\Interaction\Runtime\Scripts\Input\Controllers\Controller.cs" />
@@ -579,19 +579,19 @@
  <HintPath>C:/Program Files/Unity/2020.3.33f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="log4netPlastic">
- <HintPath>C:/Users/ruffo/VRDG/DiscGolf/QuestTest/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
+ <HintPath>C:/Users/ruffo/VRDG2/DiscGolf/QuestTest/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Plastic.Newtonsoft.Json">
- <HintPath>C:/Users/ruffo/VRDG/DiscGolf/QuestTest/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll</HintPath>
+ <HintPath>C:/Users/ruffo/VRDG2/DiscGolf/QuestTest/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Newtonsoft.Json.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Plastic.Antlr3.Runtime">
- <HintPath>C:/Users/ruffo/VRDG/DiscGolf/QuestTest/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
+ <HintPath>C:/Users/ruffo/VRDG2/DiscGolf/QuestTest/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/Unity.Plastic.Antlr3.Runtime.dll</HintPath>
  </Reference>
  <Reference Include="unityplastic">
- <HintPath>C:/Users/ruffo/VRDG/DiscGolf/QuestTest/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
+ <HintPath>C:/Users/ruffo/VRDG2/DiscGolf/QuestTest/Library/PackageCache/com.unity.collab-proxy@1.15.15/Lib/Editor/PlasticSCM/unityplastic.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.NRefactory">
- <HintPath>C:/Users/ruffo/VRDG/DiscGolf/QuestTest/Library/PackageCache/com.unity.render-pipelines.core@10.8.1/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
+ <HintPath>C:/Users/ruffo/VRDG2/DiscGolf/QuestTest/Library/PackageCache/com.unity.render-pipelines.core@10.8.1/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
  </Reference>
  <Reference Include="mscorlib">
  <HintPath>C:/Program Files/Unity/2020.3.33f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -942,13 +942,13 @@
  <HintPath>C:/Program Files/Unity/2020.3.33f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XPath.XDocument.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>C:/Users/ruffo/VRDG/DiscGolf/QuestTest/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>C:/Users/ruffo/VRDG2/DiscGolf/QuestTest/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>C:/Users/ruffo/VRDG/DiscGolf/QuestTest/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>C:/Users/ruffo/VRDG2/DiscGolf/QuestTest/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Users/ruffo/VRDG/DiscGolf/QuestTest/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Users/ruffo/VRDG2/DiscGolf/QuestTest/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

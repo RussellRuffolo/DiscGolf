@@ -11,6 +11,8 @@ public class DiscInputState : IInputState
 
     public Slider SpeedSlider;
 
+    public Slider SpinSlider;
+
     public float slideScale;
 
     public InputState CheckInputState(InputStruct playerInputs)
@@ -50,6 +52,8 @@ public class DiscInputState : IInputState
         if (rightStickInput != Vector2.zero)
         {
             SpeedSlider.value += rightStickInput.y * slideScale;
+
+            SpinSlider.value += rightStickInput.x * slideScale;
         }
         
         lastPosition = RightHandTransform.position;

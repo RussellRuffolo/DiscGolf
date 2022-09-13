@@ -29,7 +29,6 @@ public class VelocityTracker : MonoBehaviour
     {
         Velocity = GetAverageVelocity();
 
-        Debug.Log("Velocity is: " + Velocity);
 
 
         PositionBuffer[index] = transform.position;
