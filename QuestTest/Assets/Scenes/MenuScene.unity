@@ -2199,6 +2199,10 @@ PrefabInstance:
       propertyPath: maxSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4155478872808739813, guid: 73687d5e16963674790d3c583e9fe523, type: 3}
+      propertyPath: maxRotation
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 7310667539141547973, guid: 73687d5e16963674790d3c583e9fe523, type: 3}
       propertyPath: m_Name
       value: Putter

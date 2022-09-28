@@ -54,6 +54,7 @@
   <ItemGroup>
      <Compile Include="Assets\Oculus\SampleFramework\Usage\OVROverlayCanvas\Editor\OVROverlayCanvasEditor.cs" />
      <Compile Include="Assets\VRTK\Source\Editor\DataTypes\Vector3StateDrawer.cs" />
+     <Compile Include="Assets\ARTnGAME\InfiniGRASS\Scripts\Editor\InfiniGRASSManagerEditor.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Editor\BuildSamples.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Editor\OculusSampleFrameworkUtil.cs" />
      <Compile Include="Assets\VRTK\Source\Editor\VRTK_RadialMenuEditor.cs" />
@@ -63,10 +64,12 @@
      <Compile Include="Assets\VRTK\Source\Editor\VRTK_AdaptiveQualityEditor.cs" />
      <Compile Include="Assets\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
      <Compile Include="Assets\VRTK\Source\Editor\VRTK_EditorUtilities.cs" />
+     <Compile Include="Assets\ARTnGAME\InfiniGRASS\Scripts\Scripts-Shaders 2.1\Scripts\Editor\ShapeFoliageInfiniGRASSEditor.cs" />
      <Compile Include="Assets\VRTK\Source\Editor\VRTK_PolicyListEditor.cs" />
      <Compile Include="Assets\VRTK\Source\Editor\DataTypes\Limits2DDrawer.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\Gradle\Editor\Utils.cs" />
      <Compile Include="Assets\VRTK\Source\Editor\Attributes\ObsoleteInspectorDrawer.cs" />
+     <Compile Include="Assets\ARTnGAME\InfiniGRASS\Scripts\Editor\ObjExporter.cs" />
      <Compile Include="Assets\VRTK\Source\Editor\VRTK_SDKSetupEditor.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Editor\BuildAssetPackages.cs" />
      <Compile Include="Assets\VRTK\Source\Editor\VRTK_NavMeshDataEditor.cs" />
