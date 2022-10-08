@@ -17,6 +17,12 @@ public class DiscInputState : IInputState
 
     public InputState CheckInputState(InputStruct playerInputs)
     {
+        if (playerInputs.rightBut1)
+        {
+            Debug.Log("Disc UI");
+            return InputState.DiscUI;
+        }
+        
         if (playerInputs.rightSecTrig)
         {
             return InputState.Disc;

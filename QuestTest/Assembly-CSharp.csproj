@@ -279,6 +279,7 @@
      <Compile Include="Assets\VRTK\Source\SDK\Base\SDK_BaseController.cs" />
      <Compile Include="Assets\VRTK\LegacyExampleFiles\ExampleResources\Scripts\Zipline.cs" />
      <Compile Include="Assets\VRTK\Source\Scripts\Utilities\UnityEvents\VRTK_InteractHaptics_UnityEvents.cs" />
+     <Compile Include="Assets\Scripts\DiscUIInputState.cs" />
      <Compile Include="Assets\VRTK\LegacyExampleFiles\ExampleResources\Scripts\PusherStickyToggle.cs" />
      <Compile Include="Assets\Oculus\Avatar\Scripts\OvrAvatarBase.cs" />
      <Compile Include="Assets\VRTK\Source\SDK\Daydream\DaydreamReach.cs" />
@@ -384,8 +385,9 @@
      <Compile Include="Assets\VRTK\Source\Scripts\Utilities\UnityEvents\VRTK_ControlAnimationGrabAttach_UnityEvents.cs" />
      <Compile Include="Assets\VRTK\LegacyExampleFiles\ExampleResources\Scripts\Archery\ArrowSpawner.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\AppDeeplink\AppDeeplinkUI.cs" />
-     <Compile Include="Assets\VRTK\Source\Scripts\Utilities\VRTK_AdaptiveQuality.cs" />
+     <Compile Include="Assets\Scripts\CanvasGrabber.cs" />
      <Compile Include="Assets\Scripts\MiniGameController.cs" />
+     <Compile Include="Assets\VRTK\Source\Scripts\Utilities\VRTK_AdaptiveQuality.cs" />
      <Compile Include="Assets\Oculus\Avatar\Scripts\OvrAvatarSDKManager.cs" />
      <Compile Include="Assets\VRTK\LegacyExampleFiles\ExampleResources\Scripts\ExcludeTeleport.cs" />
      <Compile Include="Assets\VRTK\Source\Scripts\Utilities\UnityEvents\VRTK_UnityEvents.cs" />
@@ -417,6 +419,7 @@
      <Compile Include="Assets\VRTK\Source\Scripts\Utilities\SDK\VRTK_SDKManager.cs" />
      <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
      <Compile Include="Assets\VRTK\Source\Scripts\Interactions\Interactables\GrabAttachMechanics\VRTK_ClimbableGrabAttach.cs" />
+     <Compile Include="Assets\Scripts\Basket.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Core\HandsInteraction\Scripts\BoneCapsuleTriggerLogic.cs" />
      <Compile Include="Assets\ARTnGAME\InfiniGRASS\Scripts\v1.5\Scripts_Shaders\Vertex colored\ProceduralNoiseINFINIGRASS.cs" />
      <Compile Include="Assets\VRTK\Source\Scripts\Interactions\Interactors\VRTK_InteractGrab.cs" />
@@ -596,6 +599,7 @@
      <Compile Include="Assets\VRTK\Source\Scripts\Controls\3D\VRTK_Drawer.cs" />
      <Compile Include="Assets\VRTK\LegacyExampleFiles\ExampleResources\Scripts\Remote_Beam.cs" />
      <Compile Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Scripts\TrackSegment.cs" />
+     <Compile Include="Assets\Scripts\AdjustableFloatUI.cs" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\XingLightShader.shader" />
      <None Include="Assets\Oculus\Avatar\Resources\Materials\AvatarMaterialStateShader.cginc" />
      <None Include="Assets\Oculus\SampleFramework\Usage\HandsTrainExample\Shaders\ButtonGlow.shader" />
