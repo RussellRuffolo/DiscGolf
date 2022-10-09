@@ -180,7 +180,7 @@ namespace UnityEngine.EventSystems
         {
 #if ENABLE_LEGACY_INPUT_MANAGER
             m_LastMousePosition = m_MousePosition;
-            m_MousePosition = Input.mousePosition;
+            m_MousePosition = Mouse.current.position.ReadValue();
 #endif
         }
 
@@ -203,7 +203,7 @@ namespace UnityEngine.EventSystems
             shouldActivate |= !Mathf.Approximately(Input.GetAxisRaw(m_HorizontalAxis), 0.0f);
             shouldActivate |= !Mathf.Approximately(Input.GetAxisRaw(m_VerticalAxis), 0.0f);
             shouldActivate |= (m_MousePosition - m_LastMousePosition).sqrMagnitude > 0.0f;
-            shouldActivate |= Input.GetMouseButtonDown(0);
+            shouldActivate |= Mouse.current.leftButton.wasPressedThisFrame;
             return shouldActivate;
 #else
 			return false;
@@ -214,8 +214,8 @@ namespace UnityEngine.EventSystems
         {
             base.ActivateModule();
 #if ENABLE_LEGACY_INPUT_MANAGER
-            m_MousePosition = Input.mousePosition;
-            m_LastMousePosition = Input.mousePosition;
+            m_MousePosition = Mouse.current.position.ReadValue();
+            m_LastMousePosition = Mouse.current.position.ReadValue();
 #endif
 
             var toSelect = eventSystem.currentSelectedGameObject;
@@ -342,7 +342,7 @@ namespace UnityEngine.EventSystems
                 if (pointerEvent.IsVRPointer())
                 {
 #if ENABLE_LEGACY_INPUT_MANAGER
-                    pointerEvent.SetSwipeStart(Input.mousePosition);
+                    pointerEvent.SetSwipeStart(Mouse.current.position.ReadValue());
 #endif
                 }
                 pointerEvent.pointerPressRaycast = pointerEvent.pointerCurrentRaycast;
@@ -766,7 +766,7 @@ namespace UnityEngine.EventSystems
             else
             {
 #if UNITY_ANDROID && !UNITY_EDITOR  // On android allow swiping to start drag
-                if (useSwipeScroll && ((Vector3)pointerEvent.GetSwipeStart() - Input.mousePosition).magnitude > swipeDragThreshold)
+                if (useSwipeScroll && ((Vector3)pointerEvent.GetSwipeStart() - Mouse.current.position.ReadValue()).magnitude > swipeDragThreshold)
                 {
                     return true;
                 }
@@ -802,12 +802,12 @@ namespace UnityEngine.EventSystems
         protected Vector2 SwipeAdjustedPosition(Vector2 originalPosition, PointerEventData pointerEvent)
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            // On android we use the touchpad position (accessed through Input.mousePosition) to modify
+            // On android we use the touchpad position (accessed through Mouse.current.position.ReadValue()) to modify
             // the effective cursor position for events related to dragging. This allows the user to
             // use the touchpad to drag draggable UI elements
             if (useSwipeScroll)
             {
-                Vector2 delta =  (Vector2)Input.mousePosition - pointerEvent.GetSwipeStart();
+                Vector2 delta =  (Vector2)Mouse.current.position.ReadValue() - pointerEvent.GetSwipeStart();
                 if (InvertSwipeXAxis)
                     delta.x *= -1;
                 return originalPosition + delta * swipeDragScale;
@@ -875,7 +875,7 @@ namespace UnityEngine.EventSystems
             var released = Input.GetKeyUp(gazeClickKey) || OVRInput.GetUp(joyPadClickButton);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-            pressed |= Input.GetMouseButtonDown(0);
+            pressed |= Mouse.current.leftButton.wasPressedThisFrame;
             released |= Input.GetMouseButtonUp(0);
 #endif
 #else

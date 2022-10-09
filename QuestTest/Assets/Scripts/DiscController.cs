@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DiscController : MonoBehaviour
 {
@@ -22,18 +23,9 @@ public class DiscController : MonoBehaviour
 
     private MiniGameController m_mgController;
 
-    // public MiniGameController mgController
-    // {
-    //     get
-    //     {
-    //         return m_mgController != null
-    //             ? m_mgController
-    //             : m_mgController = GameObject.Find("MiniGameController").GetComponent<MiniGameController>();
-    //     }
-    //
-    //     set { m_mgController = value; }
-    // }
+    public Text velocityText;
 
+    #region Coefficients
     public float C_lo;
     public float C_lalpha;
     public float C_do;
@@ -54,7 +46,8 @@ public class DiscController : MonoBehaviour
     public float rho;
 
     public float g;
-
+    # endregion 
+    
     public float angleOfAttack;
 
     public Vector3 velocity;
@@ -86,48 +79,37 @@ public class DiscController : MonoBehaviour
 
     private Vector3 throwStart;
     private float maxDistance = 100;
+
     public void Throw(float speedMod, float spinMod, Vector3 direction)
     {
+
+            Vector3 d_1 = Vector3.RotateTowards(velocity, Vector3.up, angleOfAttack, 0);
+
+            // ShowD1(d_1);
+            Vector3 d_3 = -transform.up;
+            Vector3 d_2 = Vector3.Cross(d_3, d_1);
+
         //mgController.OnThrow(this);
         Debug.Log("Start throw with speed: " + speedMod);
         // transform.forward = velocity;
         velocity = speedMod * maxSpeed * direction;
+      //  transform.rotation = quaternion.identity;
+        
         angleOfAttack = CalculateAngleOfAttack();
-
-        r = spinMod * maxRotation;
+        q = angleOfAttack;
+        p = CalculateRollingAngle(d_2);
+        r =spinMod * maxRotation;
         flying = true;
-        velocityLine.positionCount = 2;
-        d1Line.positionCount = 2;
-        liftLine.positionCount = 2;
+        foreach (var line in VectorLines.Values)
+        {
+            line.positionCount = 2;
+        }
+
         throwStart = transform.position;
     }
 
-    public LineRenderer velocityLine;
     public float lineSize;
 
-    public LineRenderer d1Line;
-
-    public LineRenderer liftLine;
-    public void ShowVelocity()
-    {
-        velocityLine.SetPositions(new[] {transform.position, transform.position + velocity.normalized * lineSize});
-    }
-
-    public void ShowD1(Vector3 d1)
-    {
-        d1Line.SetPositions(new[] {transform.position, transform.position + d1.normalized * lineSize});
-    }
-
-    public void ShowLift(Vector3 lift)
-    {
-        liftLine.SetPositions(new[] {transform.position, transform.position + lift.normalized * lineSize});
-    }
-
-    public void OnGrab()
-    {
-        flying = false;
-        velocity = Vector3.zero;
-    }
 
     // https://www.cuemath.com/geometry/angle-between-a-line-and-a-plane/
     public float CalculateAngleOfAttack()
@@ -146,19 +128,64 @@ public class DiscController : MonoBehaviour
         return Mathf.Asin(numerator / denominator);
     }
 
+        // https://www.cuemath.com/geometry/angle-between-a-line-and-a-plane/
+    public float CalculateRollingAngle(Vector3 d2)
+    {
+        float a = transform.up.x;
+        float b = transform.up.y;
+        float c = transform.up.z;
+
+        float l = d2.x;
+        float m = d2.y;
+        float n = d2.z;
+
+        float numerator = Mathf.Abs(a * l + b * m + c * n);
+        float denominator = Mathf.Sqrt(a * a + b * b + c * c) * Mathf.Sqrt(l * l + m * m + n * n);
+
+        return Mathf.Asin(numerator / denominator);
+    }
+
+    private Dictionary<Color, LineRenderer> VectorLines = new Dictionary<Color, LineRenderer>();
+
+    private void ShowVector(Vector3 vector, Color color)
+    {
+        if (!VectorLines.ContainsKey(color))
+        {
+            GameObject lineObj = new GameObject();
+            LineRenderer lineRenderer = lineObj.AddComponent<LineRenderer>();
+            lineRenderer.material.color = color;
+            lineRenderer.startWidth = .05f;
+            lineRenderer.positionCount = 2;
+
+            VectorLines.Add(color, lineRenderer);
+
+            lineObj.transform.parent = transform;
+        }
+
+
+        VectorLines[color].SetPositions(new[] {transform.position, transform.position + vector.normalized * lineSize});
+    }
+
+    private void Update()
+    {
+        
+    }
+
     private void FixedUpdate()
     {
         if (flying)
         {
-            ShowVelocity();
+            // ShowVelocity();
             angleOfAttack = CalculateAngleOfAttack();
-            Vector3 d_1 = Vector3.RotateTowards(velocity, transform.up, angleOfAttack, 0);
-            ShowD1(d_1);
+            Vector3 d_1 = Vector3.RotateTowards(velocity, Vector3.up, angleOfAttack, 0);
+            ShowVector(velocity, Color.green);
+
+            // ShowD1(d_1);
             Vector3 d_3 = -transform.up;
             Vector3 d_2 = Vector3.Cross(d_3, d_1);
-
+            ShowVector(d_3, Color.black);
             Vector3 liftForce = CalculateLift(d_1, d_2, d_3);
-            ShowLift(liftForce);
+            //  ShowLift(liftForce);
             Vector3 dragForce = CalculateDrag();
             Vector3 gravityForce = CalculateGravity();
 
@@ -202,26 +229,24 @@ public class DiscController : MonoBehaviour
                 flying = false;
             }
 
-     //      transform.Rotate(d_1, p * Time.fixedDeltaTime);
-      //    transform.Rotate(d_2, q * Time.fixedDeltaTime);
-         //   transform.Rotate(d_3, r * Time.fixedDeltaTime);
+             transform.Rotate(d_1, p * Time.fixedDeltaTime, Space.World);
+          
+              transform.Rotate(d_3, r * Time.fixedDeltaTime, Space.World);
+              transform.Rotate(d_2, -q * Time.fixedDeltaTime, Space.World);
+              //transform.rotation = Quaternion.Euler(new Vector3(p, q, r));
 
 
             transform.position += movementVector;
         }
-
     }
 
-    Vector3 CalculateLift(Vector3 d1,Vector3 d2, Vector3 d3)
+    Vector3 CalculateLift(Vector3 d1, Vector3 d2, Vector3 d3)
     {
         float liftMagnitude = (C_lo + C_lalpha * angleOfAttack) * rho * area * velocity.sqrMagnitude / 2;
- 
-        Vector3 direction = -Vector3.Cross(velocity, d2);
 
+        Vector3 direction = -Vector3.Cross(velocity, d2).normalized;
 
-        Vector3
-            liftDirection = Vector3.up;//Vector3.RotateTowards(velocity, transform.up, Mathf.PI / 2, 0).normalized;
-        return liftDirection * liftMagnitude;
+        return direction * liftMagnitude;
     }
 
     Vector3 CalculateDrag()
@@ -259,8 +284,9 @@ public class DiscController : MonoBehaviour
         transform.position = startPosition;
         transform.rotation = startRotation;
 
-        velocityLine.positionCount = 0;
-        d1Line.positionCount = 0;
-        liftLine.positionCount = 0;
+        foreach (var line in VectorLines.Values)
+        {
+            line.positionCount = 0;
+        }
     }
 }
