@@ -27,10 +27,7 @@ public class EmptyInputState : IInputState
             //Disc.rotation = RightHand.rotation;
         }
 
-        if (OVRInput.GetDown(OVRInput.Button.Three))
-        {
-            return InputState.Drone;
-        }
+   
  
         return InputState.Empty;
     }

@@ -61,6 +61,7 @@ public abstract class BasePlayerController : MonoBehaviour
 
 public class InputController : BasePlayerController
 {
+    public GameObject centerEye;
     private void Start()
     {
         InputStates = new Dictionary<InputState, IInputState>()
@@ -68,7 +69,8 @@ public class InputController : BasePlayerController
             {InputState.Empty, new EmptyInputState()},
             {InputState.Disc, new DiscInputState()},
             {InputState.Throw, new ThrowInputState()},
-            {InputState.Drone, new DroneInputState()}
+            {InputState.Drone, new DroneInputState()},
+            {InputState.DiscUI, new DiscUIInputState()}
         };
         CurrentInputState = InputState.Empty;
 
@@ -79,6 +81,12 @@ public class InputController : BasePlayerController
         emptyInputState.boxHalfExtents = BoxHalfExtents;
         emptyInputState.playerManager = playerManager;
 
+        DiscUIInputState discUIInputState = (DiscUIInputState) InputStates[InputState.DiscUI];
+        discUIInputState.rightHand = RightHand;
+        discUIInputState.boxHalfExtents = BoxHalfExtents;
+        discUIInputState.playerManager = playerManager;
+        discUIInputState.centerEye = centerEye;
+        
         DiscInputState discInputState = (DiscInputState) InputStates[InputState.Disc];
         discInputState.playerManager = playerManager;
         discInputState.RightHandTransform = RightHand;

@@ -5,6 +5,41 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
+public class AdjustableCoefficient
+{
+    public string LabelText;
+
+    private Text _cText;
+
+    public Text CoefficientText
+    {
+        get => _cText;
+        set
+        {
+            _cText = value;
+            _cText.text = _cValue.ToString();
+        }
+    }
+
+    private float _cValue;
+
+    public float CoefficientValue
+    {
+        get => _cValue;
+        set
+        {
+            if (CoefficientText != null)
+            {
+                CoefficientText.text = value.ToString();
+            }
+
+            _cValue = value;
+        }
+    }
+
+    public float CoefficentMod;
+}
+
 public class DiscController : MonoBehaviour
 {
     private bool flying = false;
@@ -17,26 +52,17 @@ public class DiscController : MonoBehaviour
 
     public Vector3 halfExtents;
 
+    public GameObject AdjustableFloatUIPrefab;
 
     public Vector3 startPosition;
-    private Quaternion startRotation;
+    public Quaternion startRotation;
 
     private MiniGameController m_mgController;
 
     public Text velocityText;
 
     #region Coefficients
-    public float C_lo;
-    public float C_lalpha;
-    public float C_do;
-    public float C_dalpha;
-    public float C_mo;
-    public float C_malpha;
-    public float C_mq;
-    public float C_lr;
-    public float C_lp;
-    public float C_nr;
-
+    
     public float m;
     public float I_a;
     public float I_d;
@@ -46,27 +72,57 @@ public class DiscController : MonoBehaviour
     public float rho;
 
     public float g;
-    # endregion 
-    
+
+    # endregion
+
     public float angleOfAttack;
 
     public Vector3 velocity;
+
+    public GameObject UIParent;
+    private Dictionary<string, AdjustableCoefficient> Coefficients = new Dictionary<string, AdjustableCoefficient>();
 
     private void Start()
     {
         //mgController = GameObject.Find("MiniGameController").GetComponent<MiniGameController>();
         startRotation = transform.rotation;
 
-        C_lo = 0.188f;
-        C_lalpha = 2.37f;
-        C_do = 0.15f;
-        C_dalpha = 1.24f;
-        C_mo = -.06f;
-        C_malpha = 0.38f;
-        C_mq = 0.0008f;
-        C_lr = 0.0004f;
-        C_lp = -0.013f;
-        C_nr = -.000028f;
+        Coefficients.Add("CLo", new AdjustableCoefficient() {CoefficientValue = 0.188f, CoefficentMod = .01f, LabelText = "Lift"});
+        Coefficients.Add("CLa",
+            new AdjustableCoefficient() {CoefficientValue = 2.37f, CoefficentMod = .01f, LabelText = "Lift x A of A"});
+        Coefficients.Add("CDo", new AdjustableCoefficient() {CoefficientValue = 0.15f, CoefficentMod = .01f, LabelText = "Drag"});
+        Coefficients.Add("CDa",
+            new AdjustableCoefficient() {CoefficientValue = 1.24f, CoefficentMod = .01f,LabelText = "Drag x A of A"});
+        Coefficients.Add("CMo", new AdjustableCoefficient() {CoefficientValue = -.06f, CoefficentMod = .01f, LabelText = "Pitching"});
+        Coefficients.Add("CMa",
+            new AdjustableCoefficient() {CoefficientValue = 0.38f, CoefficentMod = .01f, LabelText = "Pitching x A of A"});
+        Coefficients.Add("CMq",
+            new AdjustableCoefficient() {CoefficientValue = 0.0008f, CoefficentMod = .0001f, LabelText = "Pitching x Pitching Velocity"});
+        Coefficients.Add("CLr", new AdjustableCoefficient() {CoefficientValue = 0.0004f, CoefficentMod = .01f, LabelText = "Rolling"});
+        Coefficients.Add("CLp",
+            new AdjustableCoefficient() {CoefficientValue = -0.013f, CoefficentMod = .0001f, LabelText = "Rolling x Rolling Velocity"});
+        Coefficients.Add("CNr", new AdjustableCoefficient() {CoefficientValue = -.000028f,  CoefficentMod = .00001f,LabelText = "Spindown"});
+
+        int count = 0;
+        foreach (var test in Coefficients)
+        {
+            GameObject adjustableFloatUI = Instantiate(AdjustableFloatUIPrefab, UIParent.transform, false);
+            adjustableFloatUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(-396, 166 - 30 * count);
+            adjustableFloatUI.GetComponent<RectTransform>().localScale = Vector3.one;
+            adjustableFloatUI.GetComponent<RectTransform>().localRotation = quaternion.identity;
+
+
+            var ui = adjustableFloatUI.GetComponent<AdjustableFloatUI>();
+            ui.LabelText.text = test.Value.LabelText;
+            test.Value.CoefficientText = ui.ValueText;
+
+            ui.DownButton.onClick.AddListener(() => LowerCoefficientValue(test.Key));
+            ui.UpButton.onClick.AddListener(() => RaiseCoefficientValue(test.Key));
+
+            count++;
+        }
+
+
 
         m = 0.175f;
         I_a = 0.00235f;
@@ -77,29 +133,57 @@ public class DiscController : MonoBehaviour
         g = 9.794f;
     }
 
+
+    public void  RaiseCoefficientValue(string memberName)
+    {
+        Coefficients[memberName].CoefficientValue += Coefficients[memberName].CoefficentMod;
+    }
+
+    public void LowerCoefficientValue(string memberName)
+    {
+        Coefficients[memberName].CoefficientValue -= Coefficients[memberName].CoefficentMod;
+
+    }
+
+    public Canvas DiscUICanvas;
+
+    public void ShowCanvas(GameObject centerEye)
+    {
+        Debug.Log("Show Canvas");
+        DiscUICanvas.enabled = true;
+        DiscUICanvas.worldCamera = centerEye.GetComponent<Camera>();
+        Vector3 target = DiscUICanvas.transform.position + DiscUICanvas.transform.position -
+                         centerEye.transform.position;
+        DiscUICanvas.transform.LookAt(target);
+    }
+
+    public void HideCanvas()
+    {
+        DiscUICanvas.enabled = false;
+    }
+
     private Vector3 throwStart;
     private float maxDistance = 100;
 
     public void Throw(float speedMod, float spinMod, Vector3 direction)
     {
+        flying = true;
 
-            Vector3 d_1 = Vector3.RotateTowards(velocity, Vector3.up, angleOfAttack, 0);
+        transform.parent = null;
 
-            // ShowD1(d_1);
-            Vector3 d_3 = -transform.up;
-            Vector3 d_2 = Vector3.Cross(d_3, d_1);
+        Vector3 d_1 = Vector3.RotateTowards(velocity, Vector3.up, angleOfAttack, 0);
+        Vector3 d_3 = -transform.up;
+        Vector3 d_2 = Vector3.Cross(d_3, d_1);
 
-        //mgController.OnThrow(this);
-        Debug.Log("Start throw with speed: " + speedMod);
-        // transform.forward = velocity;
+
         velocity = speedMod * maxSpeed * direction;
-      //  transform.rotation = quaternion.identity;
-        
+
+
         angleOfAttack = CalculateAngleOfAttack();
         q = angleOfAttack;
         p = CalculateRollingAngle(d_2);
-        r =spinMod * maxRotation;
-        flying = true;
+        r = spinMod * maxRotation;
+
         foreach (var line in VectorLines.Values)
         {
             line.positionCount = 2;
@@ -128,7 +212,7 @@ public class DiscController : MonoBehaviour
         return Mathf.Asin(numerator / denominator);
     }
 
-        // https://www.cuemath.com/geometry/angle-between-a-line-and-a-plane/
+    // https://www.cuemath.com/geometry/angle-between-a-line-and-a-plane/
     public float CalculateRollingAngle(Vector3 d2)
     {
         float a = transform.up.x;
@@ -147,6 +231,7 @@ public class DiscController : MonoBehaviour
 
     private Dictionary<Color, LineRenderer> VectorLines = new Dictionary<Color, LineRenderer>();
 
+
     private void ShowVector(Vector3 vector, Color color)
     {
         if (!VectorLines.ContainsKey(color))
@@ -164,11 +249,6 @@ public class DiscController : MonoBehaviour
 
 
         VectorLines[color].SetPositions(new[] {transform.position, transform.position + vector.normalized * lineSize});
-    }
-
-    private void Update()
-    {
-        
     }
 
     private void FixedUpdate()
@@ -209,6 +289,8 @@ public class DiscController : MonoBehaviour
 
             Vector3 movementVector = velocity * Time.fixedDeltaTime;
 
+
+            //Ground check raycast
             RaycastHit[] results = UnityEngine.Physics.BoxCastAll(transform.position, halfExtents, movementVector,
                 transform.rotation, .3f);
 
@@ -223,17 +305,27 @@ public class DiscController : MonoBehaviour
                 }
             }
 
+            //return to start if farther than max distance
             if (Vector3.Distance(throwStart, transform.position) > maxDistance)
             {
-                StartCoroutine(DiscDelay());
+                transform.parent = currentBag.transform;
+
+                transform.localPosition = startPosition;
+                transform.localRotation = startRotation;
+
+                foreach (var line in VectorLines.Values)
+                {
+                    line.positionCount = 0;
+                }
+
                 flying = false;
             }
 
-             transform.Rotate(d_1, p * Time.fixedDeltaTime, Space.World);
-          
-              transform.Rotate(d_3, r * Time.fixedDeltaTime, Space.World);
-              transform.Rotate(d_2, -q * Time.fixedDeltaTime, Space.World);
-              //transform.rotation = Quaternion.Euler(new Vector3(p, q, r));
+            transform.Rotate(d_1, p * Time.fixedDeltaTime, Space.World);
+
+            transform.Rotate(d_3, r * Time.fixedDeltaTime, Space.World);
+            transform.Rotate(d_2, -q * Time.fixedDeltaTime, Space.World);
+            //transform.rotation = Quaternion.Euler(new Vector3(p, q, r));
 
 
             transform.position += movementVector;
@@ -242,7 +334,7 @@ public class DiscController : MonoBehaviour
 
     Vector3 CalculateLift(Vector3 d1, Vector3 d2, Vector3 d3)
     {
-        float liftMagnitude = (C_lo + C_lalpha * angleOfAttack) * rho * area * velocity.sqrMagnitude / 2;
+        float liftMagnitude = (Coefficients["CLo"].CoefficientValue + Coefficients["CLa"].CoefficientValue * angleOfAttack) * rho * area * velocity.sqrMagnitude / 2;
 
         Vector3 direction = -Vector3.Cross(velocity, d2).normalized;
 
@@ -251,7 +343,7 @@ public class DiscController : MonoBehaviour
 
     Vector3 CalculateDrag()
     {
-        float dragMagnitude = (C_do + C_dalpha * angleOfAttack * angleOfAttack) * rho * area;
+        float dragMagnitude = (Coefficients["CDo"].CoefficientValue + Coefficients["CDa"].CoefficientValue * angleOfAttack * angleOfAttack) * rho * area;
         Vector3 dragDirection = -velocity.normalized;
         return dragDirection * dragMagnitude;
     }
@@ -265,24 +357,28 @@ public class DiscController : MonoBehaviour
 
     float CalculateRollingMoment()
     {
-        return (C_lr * r + C_lp * p) * rho * d * area * velocity.sqrMagnitude / 2;
+        return (Coefficients["CLr"].CoefficientValue * r + Coefficients["CLp"].CoefficientValue * p) * rho * d * area * velocity.sqrMagnitude / 2;
     }
 
     float CalculatePitchingMoment()
     {
-        return (C_mo + C_malpha * angleOfAttack + C_mq * q) * rho * d * area * velocity.sqrMagnitude / 2;
+        return (Coefficients["CMo"].CoefficientValue + Coefficients["CMa"].CoefficientValue * angleOfAttack + Coefficients["CMq"].CoefficientValue * q) * rho * d * area * velocity.sqrMagnitude / 2;
     }
 
     float CalculateSpindownMoment()
     {
-        return C_nr * r * rho * d * area * velocity.sqrMagnitude / 2;
+        return Coefficients["CNr"].CoefficientValue * r * rho * d * area * velocity.sqrMagnitude / 2;
     }
 
     IEnumerator DiscDelay()
     {
         yield return new WaitForSeconds(1);
-        transform.position = startPosition;
-        transform.rotation = startRotation;
+        currentBag.DiscLanded(transform.position);
+
+        transform.parent = currentBag.transform;
+
+        transform.localPosition = startPosition;
+        transform.localRotation = startRotation;
 
         foreach (var line in VectorLines.Values)
         {
